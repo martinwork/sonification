@@ -46,6 +46,7 @@ enum INPUTSENSOR {
     //% block="compass heading"
     COMPASS
 }
+//% color="#e79724" icon="\uf001"
 namespace sonification {
     //% blockId=maparray
     //% block="map array $list to $key $rule on $octaves octaves"
