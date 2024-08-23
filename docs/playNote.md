@@ -16,10 +16,6 @@ sonification.playNote(262, 500)
 
 This block is useful in combination with the sonification [map](./docs/map.md) function. See an example on the [main page](./README.md).
 
-```blocks
-sonification.playNote(294, 2000)
-```
-
 ```package
 sonification=github:davidnsousa/sonification
 ```
