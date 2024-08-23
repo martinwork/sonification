@@ -48,6 +48,12 @@ enum INPUTSENSOR {
 }
 //% color="#e79724" icon="\uf001"
 namespace sonification {
+    /**
+     * Re-maps all numbers in the array to a music scale on a number of octaves.
+     * That is, the smallest number in the array would get mapped to the lowest tone on the music
+     * scale specified, the largest number in the array would get mapped to the highest tone
+     * on the same scale and values in-between to tones in-between.
+    */
     //% blockId=maparray
     //% block="map array $list to $key $rule on $octaves octaves"
     //% inlineInputMode=inline
@@ -73,6 +79,12 @@ namespace sonification {
         }
         return mappednotes;
     }
+    /**
+     * Re-maps a number from a range to a music scale on a number of octaves.
+     * That is, a value ``from low`` would get mapped to the lowest tone on the music
+     * scale specified, a value ``high`` would get mapped to the highest tone
+     * on the same scale and values in-between to tones in-between. 
+    */
     //% blockId=mappedvalue
     //% block="map $value from low $low high $high to $key $rule on $octaves octaves"
     //% inlineInputMode=inline
@@ -91,7 +103,13 @@ namespace sonification {
         }
         let mappedindex2 = Math.round(((value - low) / (high - low)) * (notes2.length - 1))
         return notes2[mappedindex2];
-    }   
+    }
+    /**
+     * Re-maps a value measured from the chosen micro:bit sensor to a music scale on a number of octaves.
+     * That is, the lowest measurable value would get mapped to the lowest tone on the music
+     * scale specified, the highest measurable value would get mapped to the highest tone
+     * on the same scale and values in-between to tones in-between.
+    */
     //% blockId=PlaySensor
     //% block="play $sensor mapped to $key $rule on $octaves octaves for $duration ms"
     //% inlineInputMode=inline
@@ -159,6 +177,9 @@ namespace sonification {
         let mappedindex3 = Math.round(((value - low2) / (high2 - low2)) * (notes3.length - 1))
         music.playTone(notes3[mappedindex3], duration);
     }
+    /**
+     * Play all tone frequencies from the input array sequentially, each with the specified duration.
+    */
     //% blockId=music_play_array
     //% block="play tones from $array for $duration ms each tone"
     //% tone.shadow="device_note"
@@ -169,6 +190,9 @@ namespace sonification {
             music.playTone(note, duration);
         }
     }
+    /**
+     * Play the specified tone frequency with a certain duration.
+    */
     //% blockId=music_play_note
     //% block="play tone $tone for $duration ms"
     //% tone.shadow="device_note"
@@ -178,6 +202,9 @@ namespace sonification {
     export function playNote(tone: number, duration: number) {
         music.playTone(tone, duration);
     }
+    /**
+     * Stop all sounds for the specified duration.
+    */
     //% blockId=rest
     //% block="rest for $duration ms"
     //% duration.defl=1000
@@ -186,6 +213,10 @@ namespace sonification {
         music.stopAllSounds();
         basic.pause(duration);
     }
+    /**
+     * Choose the input scale rule
+     *  (an array containing the frequency ratios relative to the root frequency).
+    */
     //% blockId=chooseScale
     //% block="$scale"
     //% group="Auxiliary"
