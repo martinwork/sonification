@@ -84,3 +84,6 @@ To edit this repository in MakeCode.
 
 MIT
 
+```package
+sonification=github:davidnsousa/sonification
+```
