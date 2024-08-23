@@ -20,6 +20,10 @@ sonification.map(0, 0, 0, 262, sonification.chooseScale(SCALE.major), 1)
 
 **octaves**: a number specifying the number of octaves.
 
+## Returns
+
+Returns an integer number.
+
 ## Example
 
 This block is useful in combination with the [playNote](/docs/playNote.md) function. See an example on the [main page](/README.md).
