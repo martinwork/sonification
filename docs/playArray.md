@@ -10,7 +10,7 @@ sonification.playArray([0, 1], 500)
 
 **array**: an array containing the tones.
 
-**duration**: a number specifying the amount of time during which all the tones will play.
+**duration**: a number specifying the amount of time during which each tone will play.
 
 ## Example
 
