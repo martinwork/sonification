@@ -10,11 +10,11 @@ sonification.playNote(262, 500)
 
 **tone**: a number specifying the frequency of the tone.
 
-**duration**: a number specifying the amount of time during which all the tone will play.
+**duration**: a number specifying the amount of time during which the tone will play.
 
 ## Example
 
-Play a Middle D for 2 seconds.
+This block is useful in combination with the sonification [map](./docs/map.md) function. See an example on the [main page](./README.md).
 
 ```blocks
 sonification.playNote(294, 2000)
