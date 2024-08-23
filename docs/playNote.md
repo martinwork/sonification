@@ -14,7 +14,7 @@ sonification.playNote(262, 500)
 
 ## Example
 
-This block is useful in combination with the sonification [map](./docs/map.md) function. See an example on the [main page](./README.md).
+This block is useful in combination with the sonification [map](/docs/map.md) function. See an example on the [main page](/README.md).
 
 ```package
 sonification=github:davidnsousa/sonification
