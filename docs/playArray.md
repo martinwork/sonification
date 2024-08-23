@@ -14,7 +14,7 @@ sonification.playArray([0, 1], 500)
 
 ## Example
 
-This block is useful in combination with the sonification [mapArray](./docs/mapArray.md) function. See an example on the [main page](./README.md).
+This block is useful in combination with the sonification [mapArray](/docs/mapArray.md) function. See an example on the [main page](/README.md).
 
 ```package
 sonification=github:davidnsousa/sonification
