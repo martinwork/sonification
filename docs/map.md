@@ -24,10 +24,6 @@ sonification.map(0, 0, 0, 262, sonification.chooseScale(SCALE.major), 1)
 
 This block is useful in combination with the [playNote](./docs/playNote.md) function. See an example on the [main page](./README.md).
 
-```blocks
-sonification.playNote(294, 2000)
-```
-
 ```package
 sonification=github:davidnsousa/sonification
 ```
