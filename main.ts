@@ -63,7 +63,7 @@ namespace sonification {
     //% rule.defl=Scale.major
     //% octaves.defl="1"
     //% group="Map"
-    //% help=github:davidnsousa/docs/mapArray
+    //% help=github:sonification/docs/mapArray
     export function mapArray(list: number[], key: number, rule: number[], octaves: number): number[] {
         let notes: any[] = [key];
         for (let o = 1; o <= octaves; o++) {
@@ -95,7 +95,7 @@ namespace sonification {
     //% rule.defl=Scale.major
     //% octaves.defl="1"
     //% group="Map"
-    //% help=github:davidnsousa/docs/map
+    //% help=github:sonification/docs/map
     export function map(value: number, low: number, high: number, key: number, rule: number[], octaves: number): number {
         let notes2: any[] = [key];
         for (let p = 1; p <= octaves; p++) {
@@ -122,7 +122,7 @@ namespace sonification {
     //% duration.defl=500
     //% octaves.defl="1"
     //% group="Play"
-    //% help=github:davidnsousa/docs/playSensor
+    //% help=github:sonification/docs/playSensor
     export function playSensor(sensor: INPUTSENSOR, key: number, rule: number[], octaves: number, duration: number) {
         let value;
         let low2;
@@ -188,7 +188,7 @@ namespace sonification {
     //% tone.shadow="device_note"
     //% duration.defl=500
     //% group="Play"
-    //% help=github:davidnsousa/docs/playArray
+    //% help=github:sonification/docs/playArray
     export function playArray(array: number[], duration: number) {
         for (let note of array) {
             music.playTone(note, duration);
@@ -203,7 +203,7 @@ namespace sonification {
     //% tone.defl=Note.C
     //% duration.defl=500
     //% group="Play"
-    //% help=github:davidnsousa/docs/playNote
+    //% help=github:sonification/docs/playNote
     export function playNote(tone: number, duration: number) {
         music.playTone(tone, duration);
     }
@@ -214,7 +214,7 @@ namespace sonification {
     //% block="rest for $duration ms"
     //% duration.defl=1000
     //% group="Play"
-    //% help=github:davidnsousa/docs/rest
+    //% help=github:sonification/docs/rest
     export function rest(duration: number) {
         music.stopAllSounds();
         basic.pause(duration);
