@@ -16,7 +16,7 @@ The `map` function returns a integer number from mapping a number on a certain  
 
 For instance the following example maps the `light level` value on the range [`0`,`255`] to `Middle C` `Major` on `1` octave and plays it for `500` ms:
 
-```block
+```blocks
 sonification.playNote(sonification.map(input.lightLevel(), 0, 255, 262, sonification.chooseScale(SCALE.major), 1), 500)
 ```
 
@@ -28,7 +28,7 @@ The `map array` function returns an array of integer numbers from mapping an inp
 
 For instance the following example maps the array `list` containing the values `23`, `67`and `49` value on the range specified the maximum and minimum value in `list` (in this case 23 and 67 respectively) to `Middle D` `Minor` on `2` octaves and plays them sequentially for `500` ms each:
 
-```block
+```blocks
 let list = [23, 67, 49]
 sonification.playArray(sonification.mapArray(list, 262, sonification.chooseScale(SCALE.major), 1), 500)
 ```
@@ -41,7 +41,7 @@ You can easily create your own music scales with arrays and serve them as input 
 
 For instance, the following maps the `light level` value on the range [`0`,`255`] to `Middle C` `harmonic` on `1` octave and plays it for `500` ms:
 
-```block
+```blocks
 let harmonic = [1,2,3,4,5,6,7,8,9,10]
 sonification.playNote(sonification.map(input.lightLevel(), 0, 255, 262, harmonic, 1), 500)
 ```
@@ -52,7 +52,7 @@ where `harmonic` is an array of  numbers containing the frequency ratios of the 
 
 To map and Play directly from a micro:bit sensor you can use the following block with a dropdown menu for choosing the sensor. The input range is automatically selected to match the minimum and maximum values that can be obtain from the micro:bit sensors.
 
-```block
+```blocks
 sonification.playSensor(INPUTSENSOR.LIGHT, 262, sonification.chooseScale(SCALE.major), 1, 500)
 ```
 
