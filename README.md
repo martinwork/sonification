@@ -1,6 +1,12 @@
 
 > Open this page at [https://davidnsousa.github.io/sonification/](https://davidnsousa.github.io/sonification/)
 
+## Usage
+
+### Map and Play
+
+
+
 ## Use as Extension
 
 This repository can be added as an **extension** in MakeCode.

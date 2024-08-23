@@ -26,8 +26,7 @@ sonification.playNote(sonification.map(input.lightLevel(), 0, 255, 262, [
 ], 1), 500)
 // Test the 'playArray' function with default parameters. Expected: play a 0Hz and a 1Hz frequency tone sequentially, each for 500 ms (not audibale).
 sonification.playArray([0, 1], 500)
-// Test the 'playArray' function with a chosen input array  $array containing numbers 262 and 524 and 
-//  chosen $duration 1000. Expected: play Middle C and High C tones sequentially, each for 1000 ms.
+// Test the 'playArray' function with a chosen input array  $array containing numbers 262 and 524 and chosen $duration 1000. Expected: play Middle C and High C tones sequentially, each for 1000 ms.
 sonification.playArray([262, 524], 1000)
 // Test the 'mapArray' function with default parameters. The 'mapArray' function is tested in combination with the 'PlayArray' function to test its output with default parameters. Expected: play the lowest and the higher notes in the Middle C major scale sequentially (Middle C and High D), each tone for 500 ms.
 sonification.playArray(sonification.mapArray([0, 1], 262, sonification.chooseScale(SCALE.major), 1), 500)

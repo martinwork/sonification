@@ -1,4 +1,4 @@
-const findMax = (array: number[]): number => {
+function findMax(array: number[]): number {
     if (array.length === 0) {
         return NaN;
     }
@@ -11,7 +11,7 @@ const findMax = (array: number[]): number => {
     }
     return result;
 };
-const findMin = (array: number[]): number => {
+function findMin(array: number[]): number {
     if (array.length === 0) {
         return NaN;
     }
