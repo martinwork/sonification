@@ -48,9 +48,9 @@ sonification.playNote(sonification.map(input.lightLevel(), 0, 255, 262, harmonic
 
 where `harmonic` is an array of  numbers containing the frequency ratios of the harmonic scale.
 
-### Map and Play directly from a micro:bit sensor
+### Map and play directly from a micro:bit sensor
 
-To map and Play directly from a micro:bit sensor you can use the following block with a dropdown menu for choosing the sensor. The input range is automatically selected to match the minimum and maximum values that can be obtain from the micro:bit sensors.
+To map and play directly from a micro:bit sensor you can use the following block with a dropdown menu for choosing the sensor. The input range is automatically selected to match the minimum and maximum values that can be obtain from the micro:bit sensors.
 
 ```blocks
 sonification.playSensor(INPUTSENSOR.LIGHT, 262, sonification.chooseScale(SCALE.major), 1, 500)

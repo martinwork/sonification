@@ -31,9 +31,9 @@ enum SCALE {
     minor
 }
 enum INPUTSENSOR {
-    //% block="light Level"
+    //% block="light level"
     LIGHT,
-    //% block="sound Level"
+    //% block="sound level"
     SOUND,
     //% block="acceleration (x)"
     ACCELERATIONX,
@@ -111,7 +111,7 @@ namespace sonification {
      * on the same scale and values in-between to tones in-between.
     */
     //% blockId=PlaySensor
-    //% block="play $sensor mapped to $key $rule on $octaves octaves for $duration ms"
+    //% block="play sensor $sensor mapped to $key $rule on $octaves octaves for $duration ms"
     //% inlineInputMode=inline
     //% key.shadow="device_note"
     //% key.defl=Note.C
