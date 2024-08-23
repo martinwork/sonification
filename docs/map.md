@@ -22,7 +22,7 @@ sonification.map(0, 0, 0, 262, sonification.chooseScale(SCALE.major), 1)
 
 ## Example
 
-This block is useful in combination with the [playNote](./docs/playNote.md) function. See an example on the [main page](./README.md).
+This block is useful in combination with the [playNote](/docs/playNote.md) function. See an example on the [main page](/README.md).
 
 ```package
 sonification=github:davidnsousa/sonification
