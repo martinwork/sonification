@@ -57,6 +57,7 @@ namespace sonification {
     //% rule.defl=Scale.major
     //% octaves.defl="1"
     //% group="Map"
+    //% help=github:https://github.com/davidnsousa/sonification/blob/master/README.md
     export function mapArray(list: number[], key: number, rule: number[], octaves: number): number[] {
         let notes: any[] = [key];
         for (let o = 1; o <= octaves; o++) {
@@ -82,6 +83,7 @@ namespace sonification {
     //% rule.defl=Scale.major
     //% octaves.defl="1"
     //% group="Map"
+    //% help=github:https://github.com/davidnsousa/sonification/blob/master/README.md
     export function map(value: number, low: number, high: number, key: number, rule: number[], octaves: number): number {
         let notes2: any[] = [key];
         for (let p = 1; p <= octaves; p++) {
@@ -102,6 +104,7 @@ namespace sonification {
     //% duration.defl=500
     //% octaves.defl="1"
     //% group="Play"
+    //% help=github:https://github.com/davidnsousa/sonification/blob/master/README.md
     export function playSensor(sensor: INPUTSENSOR, key: number, rule: number[], octaves: number, duration: number) {
         let value;
         let low2;
@@ -164,6 +167,7 @@ namespace sonification {
     //% tone.shadow="device_note"
     //% duration.defl=500
     //% group="Play"
+    //% help=github:https://github.com/davidnsousa/sonification/blob/master/README.md
     export function playArray(array: number[], duration: number) {
         for (let note of array) {
             music.playTone(note, duration);
@@ -175,6 +179,7 @@ namespace sonification {
     //% tone.defl=Note.C
     //% duration.defl=500
     //% group="Play"
+    //% help=github:https://github.com/davidnsousa/sonification/blob/master/README.md
     export function playNote(tone: number, duration: number) {
         music.playTone(tone, duration);
     }
@@ -182,6 +187,7 @@ namespace sonification {
     //% block="rest for $duration ms"
     //% duration.defl=1000
     //% group="Play"
+    //% help=none
     export function rest(duration: number) {
         music.stopAllSounds();
         basic.pause(duration);
@@ -189,6 +195,7 @@ namespace sonification {
     //% blockId=chooseScale
     //% block="$scale"
     //% group="Auxiliary"
+    //% help=none
     export function chooseScale(scale: SCALE): number[] {
         let rule: any[] = [];
         switch (scale) {
