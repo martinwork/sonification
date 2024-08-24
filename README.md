@@ -6,27 +6,27 @@ This micro:bit Makecode extension was developed in the context of the [SoundScap
 
 ## What is sonification?
 
-Have you ever wondered what it would sound like if you could hear the stars shining, the atmospheric pressure variations or someones' thoughts and feelings? What could you learn from that? Would it sound nice? It turns out that all of this is possible.  Some phenomena are actually emitting sound waves that we can amplify, others emit  electromagnetic waves that can be scaled to audio frequencies and others cannot be described as "waves". But all of them are described by physical parameters which can be translated to sound. The process is called sonification.
+Have you ever wondered what it would sound like if you could hear the stars shining, the atmospheric pressure variations, or someone's thoughts and feelings? What could you learn from that? Would it sound nice? It turns out that all of this is possible.  Some phenomena are actually emitting sound waves that we can amplify, others emit  electromagnetic waves that can be scaled to audio frequencies and others cannot be described as "waves". But all of them are described by physical parameters which can be translated to sound. The process is called sonification.
 
 ## Usage
 
 ### Map and play a single value on a music scale
 
-The `map` function returns a integer number from mapping a number on a certain  range [low, high] to a specified music scale and number of octaves.
+The `map` function returns an integer number from mapping a number on a certain  range [low, high] to a specified music scale on a specified number of octaves.
 
-For instance the following example maps the `light level` value on the range [`0`,`255`] to `Middle C` `Major` on `1` octave and plays it for `500` ms:
+For instance, the following example maps the `light level` value on the range [`0`,`255`] to `Middle C` `Major` on `1` octave and plays it for `500` ms:
 
 ```blocks
 sonification.playNote(sonification.map(input.lightLevel(), 0, 255, 262, sonification.chooseScale(SCALE.major), 1), 500)
 ```
 
-Other sensors (including external sensors connnected through pins to the micro:bit) and different input range can be used as well. This is useful for real-time sonification, when you sonify the data at the same time you collect it.
+Other sensors (including external sensors connected through pins to the micro:bit) and different input ranges can be used as well. This is useful for real-time sonification, when you sonify the data at the same time you collect it.
 
 ### Map and play an array on a music scale
 
 The `map array` function returns an array of integer numbers from mapping an input array to a specified music scale and number of octaves.
 
-For instance the following example maps the array `list` containing the values `23`, `67`and `49` value on the range specified the maximum and minimum value in `list` (in this case 23 and 67 respectively) to `Middle D` `Minor` on `2` octaves and plays them sequentially for `500` ms each:
+For instance, the following example maps the array `list` containing the values `23`, `67`and `49` value on the range specified as the maximum and minimum value in `list` (in this case 23 and 67 respectively) to `Middle D` `Minor` on `2` octaves and plays them sequentially for `500` ms each:
 
 ```blocks
 let list = [23, 67, 49]
@@ -50,7 +50,7 @@ where `harmonic` is an array of  numbers containing the frequency ratios of the 
 
 ### Map and play directly from a micro:bit sensor
 
-To map and play directly from a micro:bit sensor you can use the following block with a dropdown menu for choosing the sensor. The input range is automatically selected to match the minimum and maximum values that can be obtain from the micro:bit sensors.
+To map and play directly from a micro:bit sensor you can use the following block with a dropdown menu for choosing the sensor. The input range is automatically selected to match the minimum and maximum values that can be obtained from the micro:bit sensors.
 
 ```blocks
 sonification.playSensor(INPUTSENSOR.LIGHT, 262, sonification.chooseScale(SCALE.major), 1, 500)
