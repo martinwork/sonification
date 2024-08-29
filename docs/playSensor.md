@@ -1,4 +1,4 @@
-# playArray
+# playSensor
 
 Maps and plays directly from a micro:bit sensor by choosing the sensor from  the dropdown menu. The input range is automatically selected to match the minimum and maximum values that can be obtained from the micro:bit sensors.
 
