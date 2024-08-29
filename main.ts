@@ -1,70 +1,191 @@
-function findMax(array: number[]): number {
-    if (array.length === 0) {
-        return NaN;
-    }
-    let result = array[0];
-    for (let i = 1; i < array.length; ++i) {
-        const entry = array[i];
-        if (entry > result) {
-            result = entry;
-        }
-    }
-    return result;
-};
-function findMin(array: number[]): number {
-    if (array.length === 0) {
-        return NaN;
-    }
-    let result2 = array[0];
-    for (let j = 1; j < array.length; ++j) {
-        const entry2 = array[j];
-        if (entry2 < result2) {
-            result2 = entry2;
-        }
-    }
-    return result2;
-};
-enum SCALE {
-    //% block="Major"
-    major,
-    //% block="Minor"
-    minor
-}
-enum INPUTSENSOR {
-    //% block="light level"
-    LIGHT,
-    //% block="sound level"
-    SOUND,
-    //% block="acceleration (x)"
-    ACCELERATIONX,
-    //% block="acceleration (y)"
-    ACCELERATIONY,
-    //% block="acceleration (z)"
-    ACCELERATIONZ,
-    //% block="acceleration strength"
-    ACCELERATIONSTRENGTH,
-    //% block="compass heading"
-    COMPASS
-}
+/**
+ * Real-time and a posteriori data sonification blocks
+ */
 //% color="#e79724" icon="\uf001"
 namespace sonification {
+    function findMax(array: number[]): number {
+        if (array.length === 0) {
+            return NaN;
+        }
+        let result = array[0];
+        for (let i = 1; i < array.length; ++i) {
+            const entry = array[i];
+            if (entry > result) {
+                result = entry;
+            }
+        }
+        return result;
+    };
+    function findMin(array: number[]): number {
+        if (array.length === 0) {
+            return NaN;
+        }
+        let result2 = array[0];
+        for (let j = 1; j < array.length; ++j) {
+            const entry2 = array[j];
+            if (entry2 < result2) {
+                result2 = entry2;
+            }
+        }
+        return result2;
+    };
+    export enum Scale {
+        //% block="major"
+        major,
+        //% block="minor"
+        minor
+    }
+    export enum Inputsensor {
+        //% block="light level"
+        light,
+        //% block="acceleration (x)"
+        accelerationx,
+        //% block="acceleration (y)"
+        accelerationy,
+        //% block="acceleration (z)"
+        accelerationz,
+        //% block="acceleration strength"
+        accelerationstrength,
+        //% block="compass heading"
+        compass
+    }
     /**
-     * Re-maps all numbers in the array to a music scale on a number of octaves.
-     * That is, the smallest number in the array would get mapped to the lowest tone on the music
-     * scale specified, the largest number in the array would get mapped to the highest tone
-     * on the same scale and values in-between to tones in-between.
+     * Stop all sounds for the specified duration
+     * @param duration a number specifying the amount of time during which all sounds stop,  eg: 1000
     */
-    //% blockId=maparray
-    //% block="map array $list to $key $rule on $octaves octaves"
+    //% blockId=rest
+    //% block="rest for $duration ms"
+    //% duration.defl=1000
+    //% group="Play"
+    //% help=github:sonification/docs/rest
+    export function rest(duration: number) {
+        music.stopAllSounds();
+        basic.pause(duration);
+    }
+    /**
+     * Play all tone frequencies from the input array sequentially, each with the specified duration
+     * @param array an array containing the tones, eg: [262,294,262,440]
+     * @param duration a number specifying the amount of time during which each tone will play, eg: 200
+     */
+    //% blockId=playArray
+    //% block="play $array for $duration ms each tone"
+    //% tone.shadow="device_note"
+    //% duration.defl=500
+    //% group="Play"
+    //% help=github:sonification/docs/playArray
+    export function playArray(array: number[], duration: number) {
+        for (let note of array) {
+            music.playTone(note, duration);
+        }
+    }
+    /**
+     * Play the specified tone frequency with a certain duration
+     * @param tone a number specifying the frequency of the tone, eg:294
+     * @param duration a number specifying the amount of time during which each tone will play, eg: 200
+    */
+    //% blockId=playNote
+    //% block="play $tone for $duration ms"
+    //% tone.shadow="device_note"
+    //% tone.defl=Note.C
+    //% duration.defl=500
+    //% group="Play"
+    //% help=github:sonification/docs/playNote
+    export function playNote(tone: number, duration: number) {
+        music.playTone(tone, duration);
+    }
+    /**
+     * Re-maps a value measured from the chosen micro:bit sensor to a music scale on a number of octaves.
+     * That is, the lowest measurable value would get mapped to the lowest tone on the music
+     * scale specified, the highest measurable value would get mapped to the highest tone
+     * on the same scale and values in-between to tones in-between.
+     * @param sensor the micro:bit sensor, eg: accelerationx
+     * @param key a number specifying the root frequency of the target scale, eg: 262
+     * @param rule an array containing the frequency ratios, eg: [1,2,3,4,5,6,7,8,9,10]
+     * @param octaves a number specifying the number of octaves, eg: 2
+     * @param duration a number specifying the amount of time during which each tone will play, eg: 200
+     */
+    //% blockId=playSensor
+    //% block="play $sensor on $key $rule || on $octaves octaves for $duration ms"
+    //% expandableArgumentMode="toggle"
     //% inlineInputMode=inline
     //% key.shadow="device_note"
     //% key.defl=Note.C
     //% rule.shadow="chooseScale"
-    //% rule.defl=Scale.major
+    //% duration.defl=500
+    //% octaves.defl="1"
+    //% group="Play"
+    //% help=github:sonification/docs/playSensor
+    export function playSensor(sensor: Inputsensor, key: number, rule: number[], octaves?: number, duration?: number) {
+        let value;
+        let low2;
+        let high2;
+        switch (sensor) {
+            case Inputsensor.light:
+                // Logic for light sensor
+                value = input.lightLevel();
+                low2 = 0;
+                high2 = 255;
+                break;
+            case Inputsensor.accelerationx:
+                // Logic for acceleration in the X direction
+                value = input.acceleration(Dimension.X);
+                low2 = 0;
+                high2 = 1023;
+                break;
+            case Inputsensor.accelerationy:
+                // Logic for acceleration in the Y direction
+                value = input.acceleration(Dimension.Y);
+                low2 = 0;
+                high2 = 1023;
+                break;
+            case Inputsensor.accelerationz:
+                // Logic for acceleration in the Z direction
+                value = input.acceleration(Dimension.Z);
+                low2 = 0;
+                high2 = 1023;
+                break;
+            case Inputsensor.accelerationstrength:
+                // Logic for acceleration strength
+                value = input.acceleration(Dimension.Strength);
+                low2 = 0;
+                high2 = 1771;
+                break;
+            case Inputsensor.compass:
+                // Logic for compass sensor
+                value = input.compassHeading();
+                low2 = 0;
+                high2 = 359;
+                break;
+        }
+        let notes3: any[] = [key];
+        for (let q = 1; q <= octaves; q++) {
+            for (let t = 0; t < rule.length; t++) {
+                notes3.push(Math.round(q * key * rule[t]));
+            }
+        }
+        let mappedindex3 = Math.round(((value - low2) / (high2 - low2)) * (notes3.length - 1))
+        music.playTone(notes3[mappedindex3], duration);
+    }
+    /**
+* Re-maps all numbers in the array to a music scale on a number of octaves.
+* That is, the smallest number in the array would get mapped to the lowest tone on the music
+* scale specified, the largest number in the array would get mapped to the highest tone
+* on the same scale and values in-between to tones in-between.
+* @param list the array to be mapped, eg: [23,47,29,64,82]
+* @param key a number specifying the root frequency of the target scale, eg: 262
+* @param rule an array containing the frequency ratios, eg: [1,2,3,4,5,6,7,8,9,10]
+* @param octaves a number specifying the number of octaves, eg: 2
+*/
+    //% blockId=mapArray
+    //% block="map $list to $key $rule || on $octaves octaves"
+    //% inlineInputMode=inline
+    //% key.shadow="device_note"
+    //% key.defl=Note.C
+    //% rule.shadow="chooseScale"
     //% octaves.defl="1"
     //% group="Map"
     //% help=github:sonification/docs/mapArray
-    export function mapArray(list: number[], key: number, rule: number[], octaves: number): number[] {
+    export function mapArray(list: number[], key: number, rule: number[], octaves?: number): number[] {
         let notes: any[] = [key];
         for (let o = 1; o <= octaves; o++) {
             for (let r = 0; r < rule.length; r++) {
@@ -85,18 +206,23 @@ namespace sonification {
      * That is, a value ``from low`` would get mapped to the lowest tone on the music
      * scale specified, a value ``high`` would get mapped to the highest tone
      * on the same scale and values in-between to tones in-between. 
-    */
-    //% blockId=mappedvalue
-    //% block="map $value from low $low high $high to $key $rule on $octaves octaves"
+     * @param value the number to be mapped
+     * @param low a number specifying the lowest value in the range
+     * @param high a number specifying the highest value in the range
+     * @param key a number specifying the root frequency of the target scale, eg: 262
+     * @param rule an array containing the frequency ratios, eg: [1,2,3,4,5,6,7,8,9,10]
+     * @param octaves a number specifying the number of octaves, eg: 2
+     */
+    //% blockId=map
+    //% block="map $value from low $low high $high to $key $rule || on $octaves octaves"
     //% inlineInputMode=inline
     //% key.shadow="device_note"
     //% key.defl=Note.C
     //% rule.shadow="chooseScale"
-    //% rule.defl=Scale.major
     //% octaves.defl="1"
     //% group="Map"
     //% help=github:sonification/docs/map
-    export function map(value: number, low: number, high: number, key: number, rule: number[], octaves: number): number {
+    export function map(value: number, low: number, high: number, key: number, rule: number[], octaves?: number): number {
         let notes2: any[] = [key];
         for (let p = 1; p <= octaves; p++) {
             for (let s = 0; s < rule.length; s++) {
@@ -107,131 +233,18 @@ namespace sonification {
         return notes2[mappedindex2];
     }
     /**
-     * Re-maps a value measured from the chosen micro:bit sensor to a music scale on a number of octaves.
-     * That is, the lowest measurable value would get mapped to the lowest tone on the music
-     * scale specified, the highest measurable value would get mapped to the highest tone
-     * on the same scale and values in-between to tones in-between.
-    */
-    //% blockId=PlaySensor
-    //% block="play sensor $sensor mapped to $key $rule on $octaves octaves for $duration ms"
-    //% inlineInputMode=inline
-    //% key.shadow="device_note"
-    //% key.defl=Note.C
-    //% rule.shadow="chooseScale"
-    //% rule.defl=Scale.major
-    //% duration.defl=500
-    //% octaves.defl="1"
-    //% group="Play"
-    //% help=github:sonification/docs/playSensor
-    export function playSensor(sensor: INPUTSENSOR, key: number, rule: number[], octaves: number, duration: number) {
-        let value;
-        let low2;
-        let high2;
-        switch (sensor) {
-            case INPUTSENSOR.LIGHT:
-                // Logic for light sensor
-                value = input.lightLevel();
-                low2 = 0;
-                high2 = 255;
-                break;
-            case INPUTSENSOR.SOUND:
-                // Logic for light sensor
-                value = input.soundLevel();
-                low2 = 0;
-                high2 = 255;
-                break;
-            case INPUTSENSOR.ACCELERATIONX:
-                // Logic for acceleration in the X direction
-                value = input.acceleration(Dimension.X);
-                low2 = 0;
-                high2 = 1023;
-                break;
-            case INPUTSENSOR.ACCELERATIONY:
-                // Logic for acceleration in the Y direction
-                value = input.acceleration(Dimension.Y);
-                low2 = 0;
-                high2 = 1023;
-                break;
-            case INPUTSENSOR.ACCELERATIONZ:
-                // Logic for acceleration in the Z direction
-                value = input.acceleration(Dimension.Z);
-                low2 = 0;
-                high2 = 1023;
-                break;
-            case INPUTSENSOR.ACCELERATIONSTRENGTH:
-                // Logic for acceleration strength
-                value = input.acceleration(Dimension.Strength);
-                low2 = 0;
-                high2 = 1771;
-                break;
-            case INPUTSENSOR.COMPASS:
-                // Logic for compass sensor
-                value = input.compassHeading();
-                low2 = 0;
-                high2 = 359;
-                break;
-        }
-        let notes3: any[] = [key];
-        for (let q = 1; q <= octaves; q++) {
-            for (let t = 0; t < rule.length; t++) {
-                notes3.push(Math.round(q * key * rule[t]));
-            }
-        }
-        let mappedindex3 = Math.round(((value - low2) / (high2 - low2)) * (notes3.length - 1))
-        music.playTone(notes3[mappedindex3], duration);
-    }
-    /**
-     * Play all tone frequencies from the input array sequentially, each with the specified duration.
-    */
-    //% blockId=music_play_array
-    //% block="play tones from $array for $duration ms each tone"
-    //% tone.shadow="device_note"
-    //% duration.defl=500
-    //% group="Play"
-    //% help=github:sonification/docs/playArray
-    export function playArray(array: number[], duration: number) {
-        for (let note of array) {
-            music.playTone(note, duration);
-        }
-    }
-    /**
-     * Play the specified tone frequency with a certain duration.
-    */
-    //% blockId=music_play_note
-    //% block="play tone $tone for $duration ms"
-    //% tone.shadow="device_note"
-    //% tone.defl=Note.C
-    //% duration.defl=500
-    //% group="Play"
-    //% help=github:sonification/docs/playNote
-    export function playNote(tone: number, duration: number) {
-        music.playTone(tone, duration);
-    }
-    /**
-     * Stop all sounds for the specified duration.
-    */
-    //% blockId=rest
-    //% block="rest for $duration ms"
-    //% duration.defl=1000
-    //% group="Play"
-    //% help=github:sonification/docs/rest
-    export function rest(duration: number) {
-        music.stopAllSounds();
-        basic.pause(duration);
-    }
-    /**
      * Choose the input scale rule
      *  (an array containing the frequency ratios relative to the root frequency).
     */
     //% blockId=chooseScale
     //% block="$scale"
     //% group="Auxiliary"
-    export function chooseScale(scale: SCALE): number[] {
+    export function chooseScale(scale: Scale): number[] {
         let rule: any[] = [];
         switch (scale) {
-            case SCALE.major: rule = [9 / 8, 5 / 4, 4 / 3, 3 / 2, 5 / 3, 15 / 8, 2];
+            case Scale.major: rule = [9 / 8, 5 / 4, 4 / 3, 3 / 2, 5 / 3, 15 / 8, 2];
                 break;
-            case SCALE.minor: rule = [9 / 8, 6 / 5, 4 / 3, 3 / 2, 8 / 5, 9 / 5, 2];
+            case Scale.minor: rule = [9 / 8, 6 / 5, 4 / 3, 3 / 2, 8 / 5, 9 / 5, 2];
                 break;
         }
         return rule;

@@ -1,14 +1,12 @@
 {
-    "name": "Sonification",
+    "name": "sonification",
     "version": "1.0.2",
-    "description": "",
+    "description": "A Makecode extension for data sonification",
+    "license": "MIT",
     "dependencies": {
-        "core": "*",
-        "radio": "*",
-        "microphone": "*"
+        "core": "*"
     },
     "files": [
-        "main.blocks",
         "main.ts",
         "README.md"
     ],
