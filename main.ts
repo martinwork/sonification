@@ -93,14 +93,12 @@ namespace sonification {
         music.playTone(tone, duration);
     }
     /**
-     * Re-maps a value measured from the chosen micro:bit sensor to a music scale on a number of octaves. 
-     * That is, the lowest measurable value would get mapped to the lowest tone on the music scale specified, the highest 
-     * measurable value would get mapped to the highest tone on the same scale and values in-between to tones in-between.
-     * @param sensor the micro:bit sensor, eg: sonification.InputSensor.Light
-     * @param key a number specifying the root frequency of the target scale, eg: 262
-     * @param rule an array containing the frequency ratios, eg: sonification.chooseScale(sonification.Scale.Major)
-     * @param octaves a number specifying the number of octaves, eg: 1
-     * @param duration a number specifying the amount of time during which each tone will play, eg: 500
+     * Re-maps a value measured from the chosen micro:bit sensor to a music scale.
+     * @param sensor the micro:bit sensor
+     * @param key the root frequency of the scale, eg: 262
+     * @param rule an array of frequency ratios
+     * @param octaves the number of octaves, eg: 1
+     * @param duration the duration of each tone, eg: 500
      */
     //% blockId=sonification-playSensor
     //% block="play $sensor on $key $rule || on $octaves octaves for $duration ms"
