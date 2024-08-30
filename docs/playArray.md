@@ -3,7 +3,7 @@
 Play a list of tones contained in an array sequentially, each for the specified duration.
 
 ```sig
-sonification.playArray([0, 1], 500)
+sonification.playArray([], 500)
 ```
 
 ## Parameters

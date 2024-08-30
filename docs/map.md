@@ -1,9 +1,9 @@
 # map
 
-The `map` function returns an integer number from mapping a number on a certain range [low, high] to a specified music scale on a specified number of octaves.
+Returns an integer number from mapping a number on a certain range [low, high] to a specified music scale on a specified number of octaves.
 
 ```sig
-sonification.map(0, 0, 0, 262, sonification.chooseScale(SCALE.major), 1)
+sonification.map(0, 0, 0, Note.C, sonification.chooseScale(sonification.Scale.Major))
 ```
 
 ## Parameters

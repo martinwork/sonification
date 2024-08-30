@@ -1,9 +1,9 @@
 # mapArray
 
-The `map array` function returns an array of integer numbers from mapping an input array to a specified music scale and number of octaves.
+Returns an array of integer numbers from mapping an input array to a specified music scale and number of octaves.
 
 ```sig
-sonification.mapArray([0, 1], 262, sonification.chooseScale(SCALE.major), 1)
+sonification.mapArray([], Note.C, sonification.chooseScale(sonification.Scale.Major))
 ```
 
 ## Parameters
