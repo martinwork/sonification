@@ -16,7 +16,7 @@ To map and play directly from a micro:bit sensor you can use the following block
 
 ```blocks
 basic.forever(function () {
-    sonification.playSensor(sonification.Inputsensor.light, 262, sonification.chooseScale(sonification.Scale.major))
+    sonification.playSensor(sonification.InputSensor.Light, 262, sonification.chooseScale(sonification.Scale.Major))
 })
 ```
 
@@ -31,7 +31,7 @@ For instance, the following example maps the `light level` value on the range [`
 ```blocks
 let tone = 0
 basic.forever(function () {
-    tone = sonification.map(input.lightLevel(), 0, 255, 262, sonification.chooseScale(sonification.Scale.major), 1)
+    tone = sonification.map(input.lightLevel(), 0, 255, 262, sonification.chooseScale(sonification.Scale.Major), 1)
     sonification.playNote(tone, 500)
 })
 ```
@@ -47,7 +47,7 @@ For instance, the following example collects `light level` data for 10 seconds (
 let x = 0
 let data: number[] = []
 for (let index = 0; index < 10; index++) {
-    x = sonification.map(input.lightLevel(), 0, 255, 294, sonification.chooseScale(sonification.Scale.minor),2)
+    x = sonification.map(input.lightLevel(), 0, 255, 294, sonification.chooseScale(sonification.Scale.Minor), 2)
     data.push(x)
     basic.pause(1000)
 }

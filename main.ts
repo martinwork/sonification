@@ -31,29 +31,29 @@ namespace sonification {
     };
     export enum Scale {
         //% block="major"
-        major,
+        Major,
         //% block="minor"
-        minor
+        Minor
     }
-    export enum Inputsensor {
+    export enum InputSensor {
         //% block="light level"
-        light,
+        Light,
         //% block="acceleration (x)"
-        accelerationx,
+        AccelerationX,
         //% block="acceleration (y)"
-        accelerationy,
+        AccelerationY,
         //% block="acceleration (z)"
-        accelerationz,
+        AccelerationZ,
         //% block="acceleration strength"
-        accelerationstrength,
+        AccelerationStrength,
         //% block="compass heading"
-        compass
+        Compass
     }
     /**
      * Stop all sounds for the specified duration
      * @param duration a number specifying the amount of time during which all sounds stop,  eg: 1000
     */
-    //% blockId=rest
+    //% blockId=sonification-rest
     //% block="rest for $duration ms"
     //% duration.defl=1000
     //% group="Play"
@@ -64,12 +64,11 @@ namespace sonification {
     }
     /**
      * Play all tone frequencies from the input array sequentially, each with the specified duration
-     * @param array an array containing the tones, eg: [262,294,262,440]
+     * @param array an array containing the tones, eg: []
      * @param duration a number specifying the amount of time during which each tone will play, eg: 200
      */
-    //% blockId=playArray
+    //% blockId=sonification-playArray
     //% block="play $array for $duration ms each tone"
-    //% tone.shadow="device_note"
     //% duration.defl=500
     //% group="Play"
     //% help=github:sonification/docs/playArray
@@ -80,10 +79,10 @@ namespace sonification {
     }
     /**
      * Play the specified tone frequency with a certain duration
-     * @param tone a number specifying the frequency of the tone, eg:294
-     * @param duration a number specifying the amount of time during which each tone will play, eg: 200
+     * @param tone a number specifying the frequency of the tone, eg: 262
+     * @param duration a number specifying the amount of time during which each tone will play, eg: 500
     */
-    //% blockId=playNote
+    //% blockId=sonification-playNote
     //% block="play $tone for $duration ms"
     //% tone.shadow="device_note"
     //% tone.defl=Note.C
@@ -94,63 +93,62 @@ namespace sonification {
         music.playTone(tone, duration);
     }
     /**
-     * Re-maps a value measured from the chosen micro:bit sensor to a music scale on a number of octaves.
-     * That is, the lowest measurable value would get mapped to the lowest tone on the music
-     * scale specified, the highest measurable value would get mapped to the highest tone
-     * on the same scale and values in-between to tones in-between.
-     * @param sensor the micro:bit sensor, eg: accelerationx
+     * Re-maps a value measured from the chosen micro:bit sensor to a music scale on a number of octaves. 
+     * That is, the lowest measurable value would get mapped to the lowest tone on the music scale specified, the highest 
+     * measurable value would get mapped to the highest tone on the same scale and values in-between to tones in-between.
+     * @param sensor the micro:bit sensor, eg: sonification.InputSensor.Light
      * @param key a number specifying the root frequency of the target scale, eg: 262
-     * @param rule an array containing the frequency ratios, eg: [1,2,3,4,5,6,7,8,9,10]
-     * @param octaves a number specifying the number of octaves, eg: 2
-     * @param duration a number specifying the amount of time during which each tone will play, eg: 200
+     * @param rule an array containing the frequency ratios, eg: sonification.chooseScale(sonification.Scale.Major)
+     * @param octaves a number specifying the number of octaves, eg: 1
+     * @param duration a number specifying the amount of time during which each tone will play, eg: 500
      */
-    //% blockId=playSensor
+    //% blockId=sonification-playSensor
     //% block="play $sensor on $key $rule || on $octaves octaves for $duration ms"
     //% expandableArgumentMode="toggle"
     //% inlineInputMode=inline
     //% key.shadow="device_note"
     //% key.defl=Note.C
-    //% rule.shadow="chooseScale"
+    //% rule.shadow="sonification-chooseScale"
     //% duration.defl=500
     //% octaves.defl="1"
     //% group="Play"
     //% help=github:sonification/docs/playSensor
-    export function playSensor(sensor: Inputsensor, key: number, rule: number[], octaves?: number, duration?: number) {
+    export function playSensor(sensor: InputSensor, key: number, rule: number[], octaves?: number, duration?: number) {
         let value;
         let low2;
         let high2;
         switch (sensor) {
-            case Inputsensor.light:
+            case InputSensor.Light:
                 // Logic for light sensor
                 value = input.lightLevel();
                 low2 = 0;
                 high2 = 255;
-                break;
-            case Inputsensor.accelerationx:
+                break
+            case InputSensor.AccelerationX:
                 // Logic for acceleration in the X direction
                 value = input.acceleration(Dimension.X);
                 low2 = 0;
                 high2 = 1023;
                 break;
-            case Inputsensor.accelerationy:
+            case InputSensor.AccelerationY:
                 // Logic for acceleration in the Y direction
                 value = input.acceleration(Dimension.Y);
                 low2 = 0;
                 high2 = 1023;
                 break;
-            case Inputsensor.accelerationz:
+            case InputSensor.AccelerationZ:
                 // Logic for acceleration in the Z direction
                 value = input.acceleration(Dimension.Z);
                 low2 = 0;
                 high2 = 1023;
                 break;
-            case Inputsensor.accelerationstrength:
+            case InputSensor.AccelerationStrength:
                 // Logic for acceleration strength
                 value = input.acceleration(Dimension.Strength);
                 low2 = 0;
                 high2 = 1771;
                 break;
-            case Inputsensor.compass:
+            case InputSensor.Compass:
                 // Logic for compass sensor
                 value = input.compassHeading();
                 low2 = 0;
@@ -167,21 +165,21 @@ namespace sonification {
         music.playTone(notes3[mappedindex3], duration);
     }
     /**
-* Re-maps all numbers in the array to a music scale on a number of octaves.
-* That is, the smallest number in the array would get mapped to the lowest tone on the music
-* scale specified, the largest number in the array would get mapped to the highest tone
-* on the same scale and values in-between to tones in-between.
-* @param list the array to be mapped, eg: [23,47,29,64,82]
-* @param key a number specifying the root frequency of the target scale, eg: 262
-* @param rule an array containing the frequency ratios, eg: [1,2,3,4,5,6,7,8,9,10]
-* @param octaves a number specifying the number of octaves, eg: 2
-*/
-    //% blockId=mapArray
+    * Re-maps all numbers in the array to a music scale on a number of octaves.
+    * That is, the smallest number in the array would get mapped to the lowest tone on the music
+    * scale specified, the largest number in the array would get mapped to the highest tone
+    * on the same scale and values in-between to tones in-between.
+    * @param list the array to be mapped, eg: []
+    * @param key a number specifying the root frequency of the target scale, eg: 262
+    * @param rule an array containing the frequency ratios, eg: sonification.chooseScale(sonification.Scale.Major)
+    * @param octaves a number specifying the number of octaves, eg: 2
+    */
+    //% blockId=sonification-mapArray
     //% block="map $list to $key $rule || on $octaves octaves"
     //% inlineInputMode=inline
     //% key.shadow="device_note"
     //% key.defl=Note.C
-    //% rule.shadow="chooseScale"
+    //% rule.shadow="sonification-chooseScale"
     //% octaves.defl="1"
     //% group="Map"
     //% help=github:sonification/docs/mapArray
@@ -210,15 +208,15 @@ namespace sonification {
      * @param low a number specifying the lowest value in the range
      * @param high a number specifying the highest value in the range
      * @param key a number specifying the root frequency of the target scale, eg: 262
-     * @param rule an array containing the frequency ratios, eg: [1,2,3,4,5,6,7,8,9,10]
-     * @param octaves a number specifying the number of octaves, eg: 2
+     * @param rule an array containing the frequency ratios, eg: sonification.chooseScale(sonification.Scale.Major)
+     * @param octaves a number specifying the number of octaves, eg: 1
      */
-    //% blockId=map
+    //% blockId=sonification-map
     //% block="map $value from low $low high $high to $key $rule || on $octaves octaves"
     //% inlineInputMode=inline
     //% key.shadow="device_note"
     //% key.defl=Note.C
-    //% rule.shadow="chooseScale"
+    //% rule.shadow="sonification-chooseScale"
     //% octaves.defl="1"
     //% group="Map"
     //% help=github:sonification/docs/map
@@ -236,15 +234,15 @@ namespace sonification {
      * Choose the input scale rule
      *  (an array containing the frequency ratios relative to the root frequency).
     */
-    //% blockId=chooseScale
+    //% blockId=sonification-chooseScale
     //% block="$scale"
     //% group="Auxiliary"
     export function chooseScale(scale: Scale): number[] {
         let rule: any[] = [];
         switch (scale) {
-            case Scale.major: rule = [9 / 8, 5 / 4, 4 / 3, 3 / 2, 5 / 3, 15 / 8, 2];
+            case Scale.Major: rule = [9 / 8, 5 / 4, 4 / 3, 3 / 2, 5 / 3, 15 / 8, 2];
                 break;
-            case Scale.minor: rule = [9 / 8, 6 / 5, 4 / 3, 3 / 2, 8 / 5, 9 / 5, 2];
+            case Scale.Minor: rule = [9 / 8, 6 / 5, 4 / 3, 3 / 2, 8 / 5, 9 / 5, 2];
                 break;
         }
         return rule;
